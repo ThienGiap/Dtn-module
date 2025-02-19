@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Dtn_Office::dtn_manager" title="DTN" module="Dtn_Office" sortOrder="10" resource="Dtn_Office::dtn_manager"/>
+        <add id="Dtn_Office::list_department" title="Department" module="Dtn_Office" parent="Dtn_Office::dtn_manager" action="dtn/department/index" resource="Dtn_Office::dtn_manager"/>
+        <add id="Dtn_Office::list_employee" title="Employee" module="Dtn_Office" parent="Dtn_Office::dtn_manager" action="dtn/employee/index" resource="Dtn_Office::dtn_manager"/>
+    </menu>
+</config>

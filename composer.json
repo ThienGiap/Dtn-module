@@ -18,9 +18,10 @@
     },
     "version": "2.4.7-p4",
     "require": {
-        "magento/product-community-edition": "2.4.7-p4",
+        "fakerphp/faker": "^1.24",
         "magento/composer-dependency-version-audit-plugin": "~0.1",
-        "magento/composer-root-update-plugin": "^2.0.4"
+        "magento/composer-root-update-plugin": "^2.0.4",
+        "magento/product-community-edition": "2.4.7-p4"
     },
     "autoload": {
         "exclude-from-classmap": [
@@ -81,4 +82,3 @@
         "magento-force": "override"
     }
 }
-

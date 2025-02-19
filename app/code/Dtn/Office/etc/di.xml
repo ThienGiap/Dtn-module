@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="department_listing_data_source" xsi:type="string">Dtn\Office\Model\ResourceModel\Department\Grid\Collection</item>
+                <item name="employee_listing_data_source" xsi:type="string">Dtn\Office\Model\ResourceModel\Employee\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Dtn\Office\Model\ResourceModel\Department\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">dtn_department</argument>
+            <argument name="resourceModel" xsi:type="string">Dtn\Office\Model\ResourceModel\Department</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Dtn\Office\Model\ResourceModel\Employee\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">dtn_employee</argument>
+            <argument name="resourceModel" xsi:type="string">Dtn\Office\Model\ResourceModel\Employee</argument>
+        </arguments>
+    </virtualType>
+</config>

@@ -13,6 +13,7 @@
     <table name="dtn_employee" resource="default" engine="innodb" comment="DTN Employee">
         <column xsi:type="int" name="employee_id" unsigned="false" nullable="false" identity="true"/>
         <column xsi:type="varchar" name="full_name" nullable="false" length="255" comment="Full Name"/>
+        <column xsi:type="varchar" name="image" length="255" nullable="false" comment="Image"/>
         <column xsi:type="varchar" name="address" nullable="false" length="255" comment="Address"/>
         <column xsi:type="varchar" name="telephone" nullable="false" length="32" comment="Telephone"/>
         <column xsi:type="datetime" name="dob" nullable="false" comment="Birthday"/>
