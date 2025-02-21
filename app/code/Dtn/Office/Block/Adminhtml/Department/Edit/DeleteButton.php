@@ -5,7 +5,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Dtn\Office\Block\Adminhtml\Employee\Edit;
+namespace Dtn\Office\Block\Adminhtml\Department\Edit;
 
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
@@ -20,7 +20,7 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
     public function getButtonData()
     {
         $data = [];
-        if ($this->getEmployeeId()) {
+        if ($this->getDepartmentId()) {
             $data = [
                 'label' => __('Delete'),
                 'class' => 'delete',
@@ -40,6 +40,6 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', ['employee_id' => $this->getEmployeeId()]);
+        return $this->getUrl('*/*/delete', ['department_id' => $this->getDepartmentId()]);
     }
 }

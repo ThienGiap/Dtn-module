@@ -3,10 +3,10 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Dtn\Office\Block\Adminhtml\Employee\Edit;
+namespace Dtn\Office\Block\Adminhtml\Department\Edit;
 
 use Magento\Backend\Block\Widget\Context;
-use Dtn\Office\Model\EmployeeFactory;
+use Dtn\Office\Model\DepartmentFactory;
 
 /**
  * Class GenericButton
@@ -19,20 +19,20 @@ class GenericButton
     protected $context;
 
     /**
-     * @var EmployeeFactory
+     * @var DepartmentFactory
      */
-    protected $employeeFactory;
+    protected $departmentFactory;
 
     /**
      * @param Context $context
-     * @param EmployeeFactory $employeeFactory
+     * @param DepartmentFactory $departmentFactory
      */
     public function __construct(
         Context $context,
-        EmployeeFactory $employeeFactory
+        DepartmentFactory $departmentFactory
     ) {
         $this->context = $context;
-        $this->employeeFactory = $employeeFactory;
+        $this->departmentFactory = $departmentFactory;
     }
 
     /**
@@ -40,11 +40,11 @@ class GenericButton
      *
      * @return int|null
      */
-    public function getEmployeeId()
+    public function getDepartmentId()
     {
-        $id = $this->context->getRequest()->getParam('employee_id');
-        $employee = $this->employeeFactory->create()->load($id);
-        if ($employee->getId())
+        $id = $this->context->getRequest()->getParam('department_id');
+        $department = $this->departmentFactory->create()->load($id);
+        if ($department->getId())
             return $id;
         return null;
     }

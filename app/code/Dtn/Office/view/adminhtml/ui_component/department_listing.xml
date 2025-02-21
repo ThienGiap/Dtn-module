@@ -16,7 +16,7 @@
             <button name="add">
                 <url path="*/*/new"/>
                 <class>primary</class>
-                <label translate="true">Add New Page</label>
+                <label translate="true">Add New Department</label>
             </button>
         </buttons>
         <spinner>department_columns</spinner>
@@ -70,33 +70,9 @@
                         <message translate="true">Are you sure you want to delete selected items?</message>
                         <title translate="true">Delete items</title>
                     </confirm>
-                    <url path="department/index/massDelete"/>
+                    <url path="dtn/department/massDelete"/>
                     <type>delete</type>
                     <label translate="true">Delete</label>
-                </settings>
-            </action>
-            <action name="disable">
-                <settings>
-                    <url path="department/index/massDisable"/>
-                    <type>disable</type>
-                    <label translate="true">Disable</label>
-                </settings>
-            </action>
-            <action name="enable">
-                <settings>
-                    <url path="department/index/massEnable"/>
-                    <type>enable</type>
-                    <label translate="true">Enable</label>
-                </settings>
-            </action>
-            <action name="edit">
-                <settings>
-                    <callback>
-                        <target>editSelected</target>
-                        <provider>department_listing.department_listing.department_columns_editor</provider>
-                    </callback>
-                    <type>edit</type>
-                    <label translate="true">Edit</label>
                 </settings>
             </action>
         </massaction>
@@ -106,7 +82,7 @@
         <settings>
             <editorConfig>
                 <param name="clientConfig" xsi:type="array">
-                    <item name="saveUrl" xsi:type="url" path="department/index/inlineEdit"/>
+                    <item name="saveUrl" xsi:type="url" path="dtn/department/inlineEdit"/>
                     <item name="validateBeforeSave" xsi:type="boolean">false</item>
                 </param>
                 <param name="indexField" xsi:type="string">department_id</param>
@@ -150,7 +126,7 @@
                 <label translate="true">Name</label>
             </settings>
         </column>
-        <actionsColumn name="actions"> <!-- class="Dtn\Office\Ui\Component\Listing\Columns\Actions"-->
+        <actionsColumn name="actions" class="Dtn\Office\Ui\Component\Listing\Columns\Department\Actions">
             <settings>
                 <indexField>department_id</indexField>
                 <resizeEnabled>false</resizeEnabled>
