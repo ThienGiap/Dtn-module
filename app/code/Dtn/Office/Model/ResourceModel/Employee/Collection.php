@@ -8,6 +8,6 @@ class Collection extends AbstractCollection
 {
     protected function _construct()
     {
-        $this->_init(\Dtn\Office\Model\Employee::class, \Dtn\Office\Model\ResourceModel\Employee::class);
+        $this->_init('Dtn\Office\Model\Employee', 'Dtn\Office\Model\ResourceModel\Employee');
     }
 }   

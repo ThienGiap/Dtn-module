@@ -8,6 +8,6 @@ class Employee extends AbstractModel
 {
     protected function _construct()
     {
-        $this->_init(\Dtn\Office\Model\ResourceModel\Employee::class);
+        $this->_init('Dtn\Office\Model\ResourceModel\Employee');
     }
 }

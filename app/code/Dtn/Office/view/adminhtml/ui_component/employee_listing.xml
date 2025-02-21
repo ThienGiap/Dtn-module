@@ -16,7 +16,7 @@
             <button name="add">
                 <url path="*/*/new"/>
                 <class>primary</class>
-                <label translate="true">Add New Page</label>
+                <label translate="true">Add New Employee</label>
             </button>
         </buttons>
         <spinner>employee_columns</spinner>
@@ -70,33 +70,9 @@
                         <message translate="true">Are you sure you want to delete selected items?</message>
                         <title translate="true">Delete items</title>
                     </confirm>
-                    <url path="banner/index/massDelete"/>
+                    <url path="dtn/employee/massDelete"/>
                     <type>delete</type>
                     <label translate="true">Delete</label>
-                </settings>
-            </action>
-            <action name="disable">
-                <settings>
-                    <url path="banner/index/massDisable"/>
-                    <type>disable</type>
-                    <label translate="true">Disable</label>
-                </settings>
-            </action>
-            <action name="enable">
-                <settings>
-                    <url path="banner/index/massEnable"/>
-                    <type>enable</type>
-                    <label translate="true">Enable</label>
-                </settings>
-            </action>
-            <action name="edit">
-                <settings>
-                    <callback>
-                        <target>editSelected</target>
-                        <provider>employee_listing.employee_listing.employee_columns_editor</provider>
-                    </callback>
-                    <type>edit</type>
-                    <label translate="true">Edit</label>
                 </settings>
             </action>
         </massaction>
@@ -106,7 +82,7 @@
         <settings>
             <editorConfig>
                 <param name="clientConfig" xsi:type="array">
-                    <item name="saveUrl" xsi:type="url" path="banner/index/inlineEdit"/>
+                    <item name="saveUrl" xsi:type="url" path="dtn/employee/inlineEdit"/>
                     <item name="validateBeforeSave" xsi:type="boolean">false</item>
                 </param>
                 <param name="indexField" xsi:type="string">employee_id</param>
@@ -150,7 +126,7 @@
                 <label translate="true">Full Name</label>
             </settings>
         </column>
-        <column name="image"> <!-- class="Valley\Banner\Ui\Component\Listing\Columns\Thumbnail" -->
+        <column name="image" class="Dtn\Office\Ui\Component\Listing\Columns\Employee\Thumbnail">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/thumbnail</item>
@@ -197,7 +173,7 @@
                 <label translate="true">Birth day</label>
             </settings>
         </column>
-        <column name="department_id">
+        <column name="department_name">
             <settings>
                 <filter>text</filter>
                 <editor>
@@ -209,19 +185,7 @@
                 <label translate="true">Department Name</label>
             </settings>
         </column>
-        <!-- <column name="department_id">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Valley\Banner\Model\Banner\Source\Status</item>
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">select</item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
-                    <item name="editor" xsi:type="string">select</item>
-                    <item name="dataType" xsi:type="string">select</item>
-                    <item name="label" xsi:type="string" translate="true">Department Id</item>
-                </item>
-            </argument>
-        </column> -->
-        <actionsColumn name="actions"> 
+        <actionsColumn name="actions" class="Dtn\Office\Ui\Component\Listing\Columns\Employee\Actions"> 
             <settings>
                 <indexField>employee_id</indexField>
                 <resizeEnabled>false</resizeEnabled>
