@@ -155,37 +155,41 @@
                 <editor>
                     <validation>
                         <rule name="required-entry" xsi:type="boolean">true</rule>
+                        <rule name="validate-digits" xsi:type="boolean">true</rule>
                     </validation>
                     <editorType>text</editorType>
                 </editor>
                 <label translate="true">Phone number</label>
             </settings>
         </column>
-        <column name="dob">
+        <column name="dob" component="Magento_Ui/js/grid/columns/date">
             <settings>
-                <filter>text</filter>
+                <filter>date</filter>
+                <dateFormat>dd-MM-yyyy</dateFormat>
                 <editor>
                     <validation>
                         <rule name="required-entry" xsi:type="boolean">true</rule>
                     </validation>
-                    <editorType>text</editorType>
+                    <editorType>date</editorType>
                 </editor>
                 <label translate="true">Birth day</label>
             </settings>
         </column>
-        <column name="department_name">
+        <column name="department_id" component="Magento_Ui/js/grid/columns/select">
             <settings>
-                <filter>text</filter>
+                <options class="Dtn\Office\Model\Config\Source\DepartmentOptions"/>
+                <filter>select</filter>
                 <editor>
                     <validation>
                         <rule name="required-entry" xsi:type="boolean">true</rule>
                     </validation>
-                    <editorType>text</editorType>
+                    <editorType>select</editorType>
                 </editor>
+                <dataType>select</dataType>
                 <label translate="true">Department Name</label>
             </settings>
         </column>
-        <actionsColumn name="actions" class="Dtn\Office\Ui\Component\Listing\Columns\Employee\Actions"> 
+        <actionsColumn name="actions" class="Dtn\Office\Ui\Component\Listing\Columns\Employee\Actions">
             <settings>
                 <indexField>employee_id</indexField>
                 <resizeEnabled>false</resizeEnabled>

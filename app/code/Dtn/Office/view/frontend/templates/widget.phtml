@@ -19,11 +19,11 @@
             <tr>
                 <td><?= $employee['full_name']; ?></td>
                 <td>
-                    <img src="<?= $block->getData('mediaURL') . $employee['image']; ?>" width="100" height="100" />
+                    <img src="<?= $block->getData('mediaURL') . $employee['image']; ?>" width="200" height="200" />
                 </td>
                 <td><?= $employee['address']; ?></td>
                 <td><?= $employee['telephone']; ?></td>
-                <td><?= $employee['dob']; ?></td>
+                <td><?= date('d-m-Y', strtotime($employee['dob'])); ?></td>
                 <td><?= $employee['department_name']; ?></td>
             </tr>
         <?php endforeach; ?>

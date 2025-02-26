@@ -88,7 +88,7 @@ class Save extends Action implements HttpPostActionInterface
             // Save data to database
             try {
                 $model->save();
-                $this->messageManager->addSuccess(__('You saved the image.'));
+                $this->messageManager->addSuccess(__('You saved the employee.'));
                 $this->dataPersistor->clear('employee');
                 if ($this->getRequest()->getParam('back')) {
                     return $resultRedirect->setPath('*/*/edit', ['employee_id' => $model->getId(), '_current' => true]);
