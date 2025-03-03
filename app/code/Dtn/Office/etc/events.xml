@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="dtn_office_employee_load_before">
+        <observer name="employee_load_before" instance="Dtn\Office\Observer\EmployeeLoadBefore" />
+    </event>
+    <event name="dtn_office_employee_load_after">
+        <observer name="employee_load_after" instance="Dtn\Office\Observer\EmployeeLoadAfter" />
+    </event>
+    <event name="dtn_office_employee_save_before">
+        <observer name="employee_save_before" instance="Dtn\Office\Observer\EmployeeSaveBefore" />
+    </event>
+    <event name="dtn_office_employee_save_after">
+        <observer name="employee_save_after" instance="Dtn\Office\Observer\EmployeeSaveAfter" />
+    </event>
+    <event name="dtn_office_employee_collection_load_after">
+        <observer name="employee_collection_load_after" instance="Dtn\Office\Observer\EmployeeCollectionLoadAfter" />
+    </event>
+</config>

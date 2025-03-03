@@ -1,0 +1,4 @@
+.admin__menu .level-0.item-dtn-manager > a:before {
+    content: url('../images/dtn-icon.svg');
+    height: 3.5rem;
+}
