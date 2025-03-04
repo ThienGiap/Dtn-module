@@ -6,6 +6,8 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
 class Collection extends AbstractCollection
 {
+    protected $_idFieldName = 'employee_id';
+
     /**
      * Event prefix
      *

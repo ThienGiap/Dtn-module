@@ -1,17 +1,21 @@
 <?php
+
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Dtn\Office\Controller\Adminhtml\Employee;
 
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Dtn\Office\Api\EmployeeRepositoryInterface;
+use Magento\Backend\App\Action;
 
 /**
  * Delete CMS page action.
  */
-class Delete extends \Magento\Backend\App\Action implements HttpGetActionInterface, HttpPostActionInterface
+class Delete extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
     /**
      * Authorization level of a basic admin session
@@ -19,6 +23,19 @@ class Delete extends \Magento\Backend\App\Action implements HttpGetActionInterfa
      * @see _isAllowed()
      */
     const ADMIN_RESOURCE = 'Dtn_Office::delete';
+
+    /**
+     * @var EmployeeRepositoryInterface
+     */
+    protected $employeeRepository;
+
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        EmployeeRepositoryInterface $employeeRepository,
+    ) {
+        $this->employeeRepository = $employeeRepository;
+        parent::__construct($context);
+    }
 
     /**
      * Delete action
@@ -31,18 +48,13 @@ class Delete extends \Magento\Backend\App\Action implements HttpGetActionInterfa
         $id = $this->getRequest()->getParam('employee_id');
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
-        
+
         if ($id) {
             try {
-                // init model and delete
-                $model = $this->_objectManager->create('Dtn\Office\Model\Employee');
-                $model->load($id);               
-                $id = $model->getId();
-                $model->delete();
-                
+                $this->employeeRepository->deleteById($id);
                 // display success message
-                $this->messageManager->addSuccess(__('The page has been deleted.'));
-                
+                $this->messageManager->addSuccess(__('The employee has been deleted.'));
+
                 return $resultRedirect->setPath('*/*/');
             } catch (\Exception $e) {
                 // display error message
@@ -51,10 +63,10 @@ class Delete extends \Magento\Backend\App\Action implements HttpGetActionInterfa
                 return $resultRedirect->setPath('*/*/edit', ['employee_id' => $id]);
             }
         }
-        
+
         // display error message
-        $this->messageManager->addError(__('We can\'t find a page to delete.'));
-        
+        $this->messageManager->addError(__('We can\'t find a employee to delete.'));
+
         // go to grid
         return $resultRedirect->setPath('*/*/');
     }

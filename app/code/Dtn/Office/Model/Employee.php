@@ -3,8 +3,9 @@
 namespace Dtn\Office\Model;
 
 use Magento\Framework\Model\AbstractModel;
+use Dtn\Office\Api\Data\EmployeeInterface;
 
-class Employee extends AbstractModel
+class Employee extends AbstractModel implements EmployeeInterface
 {
     protected $_eventPrefix = 'dtn_office_employee';
 

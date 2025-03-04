@@ -26,5 +26,10 @@
 
         <!-- Khai báo khoá ngoại sang bảng dtn_department, onDelete="CASCADE": nếu dữ liệu bị xoá bên bảng dtn_department thì cũng xoá dự liệu ở bảng dtn_employee -->
         <constraint xsi:type="foreign" referenceId="DTN_EMPLOYEE_DEPARTMENT_ID_DTN_DEPARTMENT_DEPARTMENT_ID" table="dtn_employee" column="department_id" referenceTable="dtn_department" referenceColumn="department_id" onDelete="CASCADE"/>
+        <index referenceId="DTN_EMPLOYEE_FULL_NAME_IMAGE_TELEPHONE" indexType="fulltext">
+            <column name="full_name"/>
+            <column name="image"/>
+            <column name="telephone"/>
+        </index>
     </table>
 </schema>

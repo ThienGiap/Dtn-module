@@ -12,6 +12,8 @@ namespace Dtn\Office\Controller\Adminhtml\Employee;
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\Request\DataPersistorInterface;
+use Dtn\Office\Api\EmployeeRepositoryInterface;
+use Dtn\Office\Model\EmployeeFactory;
 
 /**
  * Save CMS page action.
@@ -27,6 +29,8 @@ class Save extends Action implements HttpPostActionInterface
 
     protected $dataProcessor;
     protected $dataPersistor;
+    protected $employeeRepository;
+    protected $employeeFactory;
 
     /**
      * @param Action\Context $context
@@ -36,10 +40,14 @@ class Save extends Action implements HttpPostActionInterface
     public function __construct(
         Action\Context $context,
         PostDataProcessor $dataProcessor,
-        DataPersistorInterface $dataPersistor
+        DataPersistorInterface $dataPersistor,
+        EmployeeRepositoryInterface $employeeRepository,
+        EmployeeFactory $employeeFactory
     ) {
         $this->dataProcessor = $dataProcessor;
         $this->dataPersistor = $dataPersistor;
+        $this->employeeRepository = $employeeRepository;
+        $this->employeeFactory = $employeeFactory;
         parent::__construct($context);
     }
 
@@ -63,35 +71,36 @@ class Save extends Action implements HttpPostActionInterface
                 }
             }
 
-            // Init model and load by ID if exists
-            $model = $this->_objectManager->create('Dtn\Office\Model\Employee');
             $id = $this->getRequest()->getParam('employee_id');
+            // Load existing employee or create new
             if ($id) {
-                $model->load($id);
+                $employee = $this->employeeRepository->getById($id);
+            } else {
+                $employee = $this->employeeFactory->create();
             }
 
 
             // Validate data
             if (!$this->dataProcessor->validateRequireEntry($data)) {
                 // Redirect to Edit page if has error
-                return $resultRedirect->setPath('*/*/edit', ['employee_id' => $model->getId(), '_current' => true]); // Redirect to Edit page
+                return $resultRedirect->setPath('*/*/edit', ['employee_id' => $employee->getId(), '_current' => true]); // Redirect to Edit page
             }
 
-            // Update model
-            $model->setData($data);
+            // Update employee
+            $employee->setData($data);
 
             // echo "<pre>";
-            // var_dump($model->setData($data));
+            // var_dump($employee->setData($data));
             // die;
             // echo "</pre>";
 
             // Save data to database
             try {
-                $model->save();
+                $this->employeeRepository->save($employee);
                 $this->messageManager->addSuccess(__('You saved the employee.'));
                 $this->dataPersistor->clear('employee');
                 if ($this->getRequest()->getParam('back')) {
-                    return $resultRedirect->setPath('*/*/edit', ['employee_id' => $model->getId(), '_current' => true]);
+                    return $resultRedirect->setPath('*/*/edit', ['employee_id' => $employee->getId(), '_current' => true]);
                 }
                 return $resultRedirect->setPath('*/*/');
             } catch (\Exception $e) {

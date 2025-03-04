@@ -4,6 +4,8 @@ namespace Dtn\Office\Controller\Adminhtml\Employee;
 
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Backend\App\Action;
+use Dtn\Office\Api\EmployeeRepositoryInterface;
+use Dtn\Office\Model\EmployeeFactory;
 
 class Edit extends \Magento\Backend\App\Action implements HttpGetActionInterface
 {
@@ -22,6 +24,13 @@ class Edit extends \Magento\Backend\App\Action implements HttpGetActionInterface
     protected $_coreRegistry;
 
     /**
+     * @var EmployeeRepositoryInterface
+     */
+    protected $employeeRepository;
+
+    protected $employeeFactory;
+
+    /**
      * @var \Magento\Framework\View\Result\PageFactory
      */
     protected $resultPageFactory;
@@ -29,10 +38,14 @@ class Edit extends \Magento\Backend\App\Action implements HttpGetActionInterface
     public function __construct(
         Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \Magento\Framework\Registry $registry
+        \Magento\Framework\Registry $registry,
+        EmployeeRepositoryInterface $employeeRepository,
+        EmployeeFactory $employeeFactory
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->_coreRegistry = $registry;
+        $this->employeeRepository = $employeeRepository;
+        $this->employeeFactory = $employeeFactory;
         parent::__construct($context);
     }
 
@@ -59,27 +72,28 @@ class Edit extends \Magento\Backend\App\Action implements HttpGetActionInterface
     {
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('employee_id');
-        $model = $this->_objectManager->create('Dtn\Office\Model\Employee');
 
         // 2. Initial checking
         if ($id) {
-            $model->load($id);
-            if (!$model->getId()) {
+            $employee = $this->employeeRepository->getById($id);
+            if (!$employee->getId()) {
                 $this->messageManager->addError(__('This page no longer exists.'));
                 /** \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
                 $resultRedirect = $this->resultRedirectFactory->create();
                 return $resultRedirect->setPath('*/*/');
             }
+        } else {
+            $employee = $this->employeeFactory->create();
         }
 
-        $this->_coreRegistry->register('employee', $model);
+        $this->_coreRegistry->register('employee', $employee);
 
         // 5. Build edit form
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->_initAction();
         $resultPage->getConfig()->getTitle()->prepend(__('Employee'));
         $resultPage->getConfig()->getTitle()
-            ->prepend($model->getId() ? __('Edit Employee') : __('New Employee'));
+            ->prepend($employee->getId() ? __('Edit Employee') : __('New Employee'));
 
         return $resultPage;
     }

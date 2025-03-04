@@ -41,7 +41,7 @@ class Delete extends \Magento\Backend\App\Action implements HttpGetActionInterfa
                 $model->delete();
                 
                 // display success message
-                $this->messageManager->addSuccess(__('The page has been deleted.'));
+                $this->messageManager->addSuccess(__('The department has been deleted.'));
                 
                 return $resultRedirect->setPath('*/*/');
             } catch (\Exception $e) {
@@ -53,7 +53,7 @@ class Delete extends \Magento\Backend\App\Action implements HttpGetActionInterfa
         }
         
         // display error message
-        $this->messageManager->addError(__('We can\'t find a page to delete.'));
+        $this->messageManager->addError(__('We can\'t find a department to delete.'));
         
         // go to grid
         return $resultRedirect->setPath('*/*/');
