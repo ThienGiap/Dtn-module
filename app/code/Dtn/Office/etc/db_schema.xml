@@ -9,6 +9,9 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="department_id"/>
         </constraint>
+        <index referenceId="DTN_DEPARTMENT_NAME" indexType="fulltext">
+            <column name="name"/>
+        </index>
     </table>
     <table name="dtn_employee" resource="default" engine="innodb" comment="DTN Employee">
         <column xsi:type="int" name="employee_id" unsigned="false" nullable="false" identity="true"/>

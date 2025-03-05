@@ -31,8 +31,8 @@
             </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <aclResource>Magento_Cms::page</aclResource>
-        <dataProvider class="Magento\Cms\Ui\Component\DataProvider" name="department_listing_data_source">
+        <aclResource>Dtn_Office::dtn_manager</aclResource>
+        <dataProvider class="Dtn\Office\Ui\Component\DataProvider" name="department_listing_data_source">
             <settings>
                 <requestFieldName>department_id</requestFieldName>
                 <primaryFieldName>department_id</primaryFieldName>

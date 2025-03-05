@@ -32,7 +32,7 @@
             <updateUrl path="mui/index/render"/>
         </settings>
         <aclResource>Dtn_Office::dtn_manager</aclResource>
-        <dataProvider class="Dtn\Office\Ui\Component\EmployeeDataProvider" name="employee_listing_data_source">
+        <dataProvider class="Dtn\Office\Ui\Component\DataProvider" name="employee_listing_data_source">
             <settings>
                 <requestFieldName>employee_id</requestFieldName>
                 <primaryFieldName>employee_id</primaryFieldName>
@@ -45,7 +45,7 @@
         </settings>
         <bookmark name="bookmarks"/>
         <columnsControls name="columns_controls"/>
-        <filterSearch name="full_name"/>
+        <filterSearch name="fulltext"/>
         <filters name="listing_filters">
             <argument name="data" xsi:type="array">
                 <item name="observers" xsi:type="array">
