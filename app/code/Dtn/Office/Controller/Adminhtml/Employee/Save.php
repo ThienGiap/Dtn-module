@@ -63,12 +63,10 @@ class Save extends Action implements HttpPostActionInterface
             }
             if (empty($data['images'])) {
                 $data['images'] = null;
+            } elseif ($data['images'][0] && $data['images'][0]['name']) {
+                $data['image'] = $data['images'][0]['name'];
             } else {
-                if ($data['images'][0] && $data['images'][0]['name']) {
-                    $data['image'] = $data['images'][0]['name'];
-                } else {
-                    $data['image'] = null;
-                }
+                $data['image'] = null;
             }
 
             $id = $this->getRequest()->getParam('employee_id');
@@ -79,20 +77,15 @@ class Save extends Action implements HttpPostActionInterface
                 $employee = $this->employeeFactory->create();
             }
 
-
             // Validate data
             if (!$this->dataProcessor->validateRequireEntry($data)) {
+                $this->dataPersistor->set('employee', $data);
                 // Redirect to Edit page if has error
-                return $resultRedirect->setPath('*/*/edit', ['employee_id' => $employee->getId(), '_current' => true]); // Redirect to Edit page
+                return $resultRedirect->setPath('*/*/edit', ['employee_id' => $employee->getId(), '_current' => true]);
             }
 
             // Update employee
             $employee->setData($data);
-
-            // echo "<pre>";
-            // var_dump($employee->setData($data));
-            // die;
-            // echo "</pre>";
 
             // Save data to database
             try {
@@ -100,11 +93,14 @@ class Save extends Action implements HttpPostActionInterface
                 $this->messageManager->addSuccess(__('You saved the employee.'));
                 $this->dataPersistor->clear('employee');
                 if ($this->getRequest()->getParam('back')) {
-                    return $resultRedirect->setPath('*/*/edit', ['employee_id' => $employee->getId(), '_current' => true]);
+                    return $resultRedirect->setPath(
+                        '*/*/edit',
+                        ['employee_id' => $employee->getId(), '_current' => true]
+                    );
                 }
                 return $resultRedirect->setPath('*/*/');
             } catch (\Exception $e) {
-                $this->messageManager->addException($e, __('Something went wrong while saving the image.'));
+                $this->messageManager->addException($e, __('Something went wrong while saving the employee.'));
             }
 
             $this->dataPersistor->set('employee', $data);

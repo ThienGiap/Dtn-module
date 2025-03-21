@@ -84,11 +84,11 @@ class EmployeeRepository implements EmployeeRepositoryInterface
     {
         $employee = $this->employeeFactory->create();
         $this->resource->load($employee, $employeeId);
-        
+
         if (!$employee->getId()) {
             throw new NoSuchEntityException(__('Employee with id "%1" does not exist.', $employeeId));
         }
-        
+
         return $employee;
     }
 
@@ -147,4 +147,13 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
         return $searchResults;
     }
+
+    public function getByEmail($email)
+    {
+        $employee = $this->employeeFactory->create();
+        $employeeCollection = $employee->getCollection()->addFieldToFilter('email', $email);
+
+        return $employeeCollection->getFirstItem()->getId() ? $employeeCollection->getFirstItem() : null;
+    }
+
 }

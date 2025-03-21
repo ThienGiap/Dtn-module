@@ -35,4 +35,6 @@ interface EmployeeRepositoryInterface
      * @return \Magento\Framework\Api\SearchResultsInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
+
+    public function getByEmail($email);
 }

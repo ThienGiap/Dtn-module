@@ -12,6 +12,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Backend\App\Action;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Dtn\Office\Model\EmployeeFactory;
+use Dtn\Office\Api\EmployeeRepositoryInterface;
 
 class InlineEdit extends \Magento\Backend\App\Action implements HttpGetActionInterface, HttpPostActionInterface
 {
@@ -23,17 +24,22 @@ class InlineEdit extends \Magento\Backend\App\Action implements HttpGetActionInt
     const ADMIN_RESOURCE = 'Dtn_Office::save';
 
     protected $_coreRegistry;
+
     protected $jsonFactory;
     protected $employeeFactory;
+
+    protected $employeeRepository;
 
     public function __construct(
         Action\Context $context,
         JsonFactory $jsonFactory,
         EmployeeFactory $employeeFactory,
+        EmployeeRepositoryInterface $employeeRepository,
         \Magento\Framework\Registry $registry
     ) {
         $this->jsonFactory = $jsonFactory;
         $this->employeeFactory = $employeeFactory;
+        $this->employeeRepository = $employeeRepository;
         $this->_coreRegistry = $registry;
         parent::__construct($context);
     }
@@ -48,12 +54,23 @@ class InlineEdit extends \Magento\Backend\App\Action implements HttpGetActionInt
 
         foreach (array_keys($postItems) as $employeeId) {
             try {
-                $employee = $this->employeeFactory->create();
-                $employee->load($employeeId);
-                $employee->setData($postItems[(string)$employeeId]);
-                $employee->save();
+                $data = $postItems[(string)$employeeId];
+                $email = $data['email'] ?? null;
+
+                // Check if email already exists for another employee
+                $existingEmployee = $this->employeeRepository->getByEmail($email);
+                if ($existingEmployee && $existingEmployee->getId() != $employeeId) {
+                    throw new \Exception(__('Email "%1" is already exists.', $email));
+                }
+
+                // Load employee using repository
+                $employee = $this->employeeRepository->getById($employeeId);
+
+                // Set data and save via repository
+                $employee->setData($data);
+                $this->employeeRepository->save($employee);
             } catch (\Exception $e) {
-                $messages[] = __('Something went wrong');
+                $messages[] = $e->getMessage();
                 $error = true;
             }
         }
@@ -63,4 +80,5 @@ class InlineEdit extends \Magento\Backend\App\Action implements HttpGetActionInt
             'error' => $error
         ]);
     }
+
 }
