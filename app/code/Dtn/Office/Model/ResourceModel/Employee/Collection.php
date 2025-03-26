@@ -26,4 +26,4 @@ class Collection extends AbstractCollection
     {
         $this->_init('Dtn\Office\Model\Employee', 'Dtn\Office\Model\ResourceModel\Employee');
     }
-}   
+}

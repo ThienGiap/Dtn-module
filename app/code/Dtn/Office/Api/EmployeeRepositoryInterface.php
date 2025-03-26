@@ -36,5 +36,11 @@ interface EmployeeRepositoryInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
 
+    /**
+     * Get employee by email
+     *
+     * @param string $email
+     * @return \Dtn\Office\Api\Data\EmployeeInterface
+     */
     public function getByEmail($email);
 }

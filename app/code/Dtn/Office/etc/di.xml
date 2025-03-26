@@ -55,4 +55,5 @@
             <argument name="collectionProcessor" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor</argument>
         </arguments>
     </type>
+    <preference for="Dtn\Office\Api\Data\EmployeeInterface" type="Dtn\Office\Model\Employee" />
 </config>
