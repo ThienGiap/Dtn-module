@@ -8,6 +8,7 @@
         <tr>
             <th>Name</th>
             <th>Image</th>
+            <th>Email</th>
             <th>Address</th>
             <th>Phone number</th>
             <th>Birth day</th>
@@ -21,6 +22,7 @@
                 <td>
                     <img src="<?= $block->getData('mediaURL') . $employee['image']; ?>" width="200" height="200" />
                 </td>
+                <td><?= $employee['email']; ?></td>
                 <td><?= $employee['address']; ?></td>
                 <td><?= $employee['telephone']; ?></td>
                 <td><?= date('d-m-Y', strtotime($employee['dob'])); ?></td>
@@ -29,3 +31,7 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+
+<div>
+    <?= $block->getPagerHtml(); ?>
+</div>
