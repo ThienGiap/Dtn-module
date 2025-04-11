@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::chatsystem_elements" title="Lof ChatSystem">
+                    <resource id="Lof_ChatSystem::chat" title="Chat" sortOrder="55">
+                        <resource id="Lof_ChatSystem::chat_edit" title="Edit Chat" sortOrder="10" />
+                        <resource id="Lof_ChatSystem::chat_save" title="Save Chat" sortOrder="20" />
+                        <resource id="Lof_ChatSystem::chat_delete" title="Delete Chat" sortOrder="30" />
+                    </resource>
+                    <resource id="Lof_ChatSystem::blacklist" title="Chat Blacklist" sortOrder="60">
+                        <resource id="Lof_ChatSystem::blacklist_edit" title="Edit Blacklist" sortOrder="10" />
+                        <resource id="Lof_ChatSystem::blacklist_save" title="Save Blacklist" sortOrder="20" />
+                        <resource id="Lof_ChatSystem::blacklist_delete" title="Delete Blacklist" sortOrder="30" />
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Lof_ChatSystem::config_chatsystem" title="Lof ChatSystem" sortOrder="1000"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

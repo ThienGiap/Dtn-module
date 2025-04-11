@@ -1,0 +1,21 @@
+
+<li class="link chatsystem wishlist" data-bind="scope: 'chatsystem'">
+    <a <?= $block->getLinkAttributes() ?>><?= $block->escapeHtml($block->getLabel()) ?>
+        <!-- ko if: chatsystem().amount -->
+        <span data-bind="text: chatsystem().amount" class="counter amount"></span>
+        <!-- /ko -->
+    </a>
+</li>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "chatsystem": {
+                        "component": "Lof_ChatSystem/js/view/chatsystem"
+                    }
+                }
+            }
+        }
+    }
+</script>

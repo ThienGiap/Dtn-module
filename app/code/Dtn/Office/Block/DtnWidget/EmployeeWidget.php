@@ -33,7 +33,7 @@ class EmployeeWidget extends Template implements BlockInterface
 
         // Pagination setup
         $page = (int)$this->getRequest()->getParam('p', 1);
-        $pageSize = (int)$this->getRequest()->getParam('limit', 10);
+        $pageSize = (int)$this->getRequest()->getParam('limit', 5);
 
         $collection->getSelect()->joinLeft(
             ['dept' => 'dtn_department'],
@@ -63,7 +63,7 @@ class EmployeeWidget extends Template implements BlockInterface
     public function getPagerHtml()
     {
         $pager = $this->getLayout()->createBlock(Pager::class, 'dtn.employee.pager');
-        $pager->setAvailableLimit([10 => 10, 20 => 20, 50 => 50]);
+        $pager->setAvailableLimit([5 => 5, 10 => 10, 20 => 20, 50 => 50]);
         $pager->setCollection($this->employeeCollectionFactory->create());
         return $pager->toHtml();
     }

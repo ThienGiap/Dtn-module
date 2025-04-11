@@ -56,7 +56,7 @@ class Actions extends \Magento\Ui\Component\Listing\Columns\Column
                         'href' => $this->urlBuilder->getUrl(self::EMPLOYEE_URL_PATH_DELETE, ['employee_id' => $item['employee_id']]),
                         'label' => __('Delete'),
                         'confirm' => [
-                            'title' => __('Delete ${ $.$data.image }'),
+                            'title' => __('Delete'),
                             'message' => __('Are you sure you wan\'t to delete this record?')
                         ]
                     ];

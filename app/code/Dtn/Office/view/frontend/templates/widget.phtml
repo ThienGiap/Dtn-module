@@ -1,37 +1,62 @@
-<link rel="stylesheet" type="text/css" href="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Dtn_Office::css/style.css') ?>" />
+<link rel="stylesheet" type="text/css" href="<?php
+/* @escapeNotVerified */
 
-<?php $employees = $block->getData('employees'); ?>
+echo $block->getViewFileUrl('Dtn_Office::css/style.css') ?>"/>
 
+<?php
+$employees = $block->getData('employees'); ?>
+
+<div id="chatgpt-widget" style="margin: auto;">
+    <h3>Gemini đểu</h3>
+    <div id="chatgpt-response"
+         style="border: 1px solid #ccc; padding: 10px; height: auto; max-height: 800px; overflow-y: auto; background: #f7f7f7; border-radius: 10px;"></div>
+
+    <div style="margin-top: 10px; display: flex; gap: 10px;">
+        <textarea id="chatgpt-input" rows="2"
+                  style="flex: 1; resize: none; padding: 10px; border-radius: 10px; border: 1px solid #ccc; overflow: hidden"></textarea>
+        <button onclick="sendToChatGPT()" id="chatgpt-send-btn"
+                style="padding: 10px 20px; border-radius: 10px; background-color: #007bff; color: white; border: none; height: 60px;">
+            Send
+        </button>
+    </div>
+
+    <input type="hidden" name="form_key" value="<?= $block->getFormKey() ?>"/>
+</div>
+<br>
 <h1>List Employees</h1>
 <table border="1px">
     <thead>
-        <tr>
-            <th>Name</th>
-            <th>Image</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Phone number</th>
-            <th>Birth day</th>
-            <th>Department</th>
-        </tr>
+    <tr>
+        <th>Name</th>
+        <th>Image</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Phone number</th>
+        <th>Birth day</th>
+        <th>Department</th>
+    </tr>
     </thead>
     <tbody>
-        <?php foreach ($employees as $employee): ?>
-            <tr>
-                <td><?= $employee['full_name']; ?></td>
-                <td>
-                    <img src="<?= $block->getData('mediaURL') . $employee['image']; ?>" width="200" height="200" />
-                </td>
-                <td><?= $employee['email']; ?></td>
-                <td><?= $employee['address']; ?></td>
-                <td><?= $employee['telephone']; ?></td>
-                <td><?= date('d-m-Y', strtotime($employee['dob'])); ?></td>
-                <td><?= $employee['department_name']; ?></td>
-            </tr>
-        <?php endforeach; ?>
+    <?php
+    foreach ($employees as $employee): ?>
+        <tr>
+            <td><?= $employee['full_name']; ?></td>
+            <td>
+                <img src="<?= $block->getData('mediaURL') . $employee['image']; ?>" width="200" height="200"/>
+            </td>
+            <td><?= $employee['email']; ?></td>
+            <td><?= $employee['address']; ?></td>
+            <td><?= $employee['telephone']; ?></td>
+            <td><?= date('d-m-Y', strtotime($employee['dob'])); ?></td>
+            <td><?= $employee['department_name']; ?></td>
+        </tr>
+    <?php
+    endforeach; ?>
     </tbody>
 </table>
 
 <div>
     <?= $block->getPagerHtml(); ?>
 </div>
+
+<script type="text/javascript" src="<?= $block->getViewFileUrl('Dtn_Office::js/chatgpt.js') ?>"></script>

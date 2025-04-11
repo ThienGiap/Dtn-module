@@ -1,0 +1,34 @@
+{
+    "name": "landofcoder/module-chat-system",
+    "description": "Chat System magento 2 Extension",
+    "require": {
+        "landofcoder/module-all" : "1.*"
+    },
+    "type": "magento2-module",
+    "version": "1.0.7",
+    "keywords": [
+        "landofcoder",
+        "landofcoder chat system",
+        "magento 2 live chat",
+        "magento 2 chat system",
+        "magento 2 helpdesk",
+        "magento 2 chat system extension"
+      ],
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "authors": [
+        {
+            "name": "Lof",
+            "email": "landofcoder@gmail.com",
+            "role": "Magento 2 Lof Chat System"
+        }
+    ],
+    "autoload": {
+        "files": [ "registration.php" ],
+        "psr-4": {
+            "Lof\\ChatSystem\\": ""
+        }
+    }
+}

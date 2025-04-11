@@ -1,0 +1,45 @@
+<?php
+/**
+ * Landofcoder
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Landofcoder EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.landofcoder.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.landofcoder.com/ for more information
+ *
+ * @category   Lof
+ * @package    Lof_ChatSystem
+ * @copyright  Copyright (c) 2016 Landofcoder (http://www.landofcoder.com/)
+ * @license    http://www.landofcoder.com/LICENSE-1.0.html
+ */
+
+/**
+ * Form Builder extension
+ *
+ * @category   Lof
+ * @package    Lof_ChatSystem
+ * @author     Landofcoder Dev Team <landofcoder@gmail.com>
+ */
+?>
+<div class="landofcoder-fue-menu">
+    <div class="actions dropdown closable">
+        <button type="button" class="admin__action-dropdown" data-mage-init='{"dropdown":{}}' data-toggle="dropdown" aria-haspopup="true">
+            <span class="admin__action-dropdown-text"><?= $block->getCurrentItem()['title'] ?></span>
+        </button>
+        <ul class="dropdown-menu">
+            <?php foreach ($block->getMenuItems() as $index => $item): ?>
+                <li class="<?php if ($block->isCurrent($index)): ?>current<?php endif; ?> <?php if (isset($item['separator'])): ?>separator<?php endif; ?>" >
+                    <a <?php if(isset($item['item'])){ echo 'class="lof-dropdown"'; } ?>  href="<?= $item['url'] ?>" <?= $block->renderAttributes($item) ?>><?= $item['title'] ?><?php if(isset($item['item'])){ echo '<span class="opener" ></span>'; } ?></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>

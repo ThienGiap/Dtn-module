@@ -56,4 +56,7 @@
         </arguments>
     </type>
     <preference for="Dtn\Office\Api\Data\EmployeeInterface" type="Dtn\Office\Model\Employee" />
+    <type name="Dtn\Office\Controller\Adminhtml\Employee\Save">
+        <plugin name="dtn_office_employee_save_plugin" type="Dtn\Office\Plugin\EmployeePlugin" sortOrder="10"/>
+    </type>
 </config>

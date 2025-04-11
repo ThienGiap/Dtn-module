@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
+    <system>
+        <tab id="landofcoder" translate="label" sortOrder="300">
+            <label>Landofcoder</label>
+        </tab>
+        <section id="lofchatsystem" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Live Chat System</label>
+            <tab>landofcoder</tab>
+            <resource>Lof_ChatSystem::config_chatsystem</resource>
+            <group id="general_settings" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="email_settings" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Email Settings</label>
+                <field id="enable_email" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Send Mail</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="email_admin" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Notification to admin</label>
+                </field>
+                <field id="sender_email_identity" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="customer_chat_template" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Template of Customer Chat Email</label>
+                    <source_model>\Lof\ChatSystem\Model\Config\Source\EmailTemplate</source_model>
+                </field>
+                <field id="admin_reply_template" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Template of Admin Reply Chat Email</label>
+                    <source_model>\Lof\ChatSystem\Model\Config\Source\EmailTemplate</source_model>
+                </field>
+            </group>
+            <group id="chat" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Chat Settings</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_guest" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Guest Chat</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends><field id="enable">1</field></depends>
+                </field>
+                <field id="enable_blacklist" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Check Blacklist</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+                <field id="text_label" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Text Label</label>
+                </field>
+                <field id="background_color" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Background Color</label>
+                </field>
+                <field id="store" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Store</label>
+                    <source_model>Magento\Config\Model\Config\Source\Store</source_model>
+                </field>
+                <field id="welcome_message" translate="label" type="textarea" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Welcome Message show on first chat</label>
+                </field>
+                <field id="auto_message" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Automatic Message show on first chat</label>
+                </field>
+                <field id="auto_user_name" translate="label" type="text" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Automatic User Name</label>
+                </field>
+             </group>
+            <group id="system" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>System Settings</label>
+                <field id="enable_clean_log" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Auto Clean Chat Logs</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="clean_older_day" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Clean Logs older number days</label>
+                    <comment>Input number older days will been clean. Empty to clean all. Example: 30 - it's mean clean all chat logs from 30 days ago or older.</comment>
+                </field>
+                <field id="enable_auto_assign_user" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Auto Assign Admin User</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="admin_user_id" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Admin User Id</label>
+                    <comment>Input default admin user Id will been assigned new chat message, and will receive notification email.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>        

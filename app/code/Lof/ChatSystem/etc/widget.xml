@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Landofcoder
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * http://landofcoder.com/license
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Landofcoder
+ * @package    Lof_ChatSystem
+ * @copyright  Copyright (c) 2017 Landofcoder (http://www.landofcoder.com/)
+ * @license    http://www.landofcoder.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget id="lofchatsystem_form" class="Lof\ChatSystem\Block\Widget\Form">
+		<label translate="true">Lof ChatSystem: Form</label>
+		<description translate="true"></description>
+		<parameters>
+			<parameter name="title" xsi:type="text" visible="true">
+				<label translate="true">Title</label>
+			</parameter>
+            <parameter name="title_color" xsi:type="text" visible="true">
+                <label translate="true">Title Color</label>
+                <description translate="true"><![CDATA[Input color name or color code. Example: #CC0000, white,...]]></description>
+            </parameter>
+            <parameter name="prefix_class" xsi:type="text" visible="true">
+                <label translate="true">Prefix Class</label>
+            </parameter>
+             <parameter name="priority" xsi:type="select" visible="true" source_model="Lof\ChatSystem\Model\Config\Source\Priority">
+                <label translate="true">Priority for new tickets</label>
+            </parameter>
+             <parameter name="category" xsi:type="select" visible="true" source_model="Lof\ChatSystem\Model\Config\Source\Category">
+                <label translate="true">Category for new tickets</label>
+            </parameter>
+              <parameter name="status" xsi:type="select" visible="true" source_model="Lof\ChatSystem\Model\Config\Source\Status">
+                <label translate="true">Status for new tickets</label>
+            </parameter>
+             <parameter name="display_type" xsi:type="select" visible="true" source_model="Lof\ChatSystem\Model\Config\Source\DisplayType">
+                <label translate="true">Display Type</label>
+            </parameter>
+             <parameter name="position" xsi:type="select" visible="true" source_model="Lof\ChatSystem\Model\Config\Source\Position">
+                <label translate="true">Position</label>
+                <depends><parameter name="display_type" value="tab_animation" /></depends>
+            </parameter>
+             <parameter name="position_popup" xsi:type="select" visible="true" source_model="Lof\ChatSystem\Model\Config\Source\Position">
+                <label translate="true">Position</label>
+                <depends><parameter name="display_type" value="tab_popup" /></depends>
+            </parameter>
+             <parameter name="button_text" xsi:type="text" visible="true">
+                <label translate="true">Button Text</label>
+            </parameter>
+            <parameter name="show_text_before" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show Text Before Form</label>
+            </parameter>
+             <parameter name="before_form_content" xsi:type="text" visible="true">
+                <label translate="true">Before Form Content</label>
+                <depends><parameter name="show_text_before" value="1" /></depends>
+            </parameter>
+            <parameter name="show_text_after" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show Text After Form</label>
+            </parameter>
+             <parameter name="after_form_content" xsi:type="text" visible="true">
+                <label translate="true">After Form Content</label>
+                <depends><parameter name="show_text_after" value="1" /></depends>
+            </parameter>
+            <parameter name="submit_button_text" xsi:type="text" visible="true">
+                <label translate="true">Submit Button Text</label>
+            </parameter>
+            <parameter name="submit_button_color" xsi:type="text" visible="true">
+                <label translate="true">Submit Button Color</label>
+            </parameter>
+            <parameter name="submit_background_color" xsi:type="text" visible="true">
+                <label translate="true">Submit Background Color</label>
+            </parameter>
+            <parameter name="submit_text_color" xsi:type="text" visible="true">
+                <label translate="true">Submit Text Color</label>
+            </parameter>
+        </parameters>
+    </widget>	
+</widgets>

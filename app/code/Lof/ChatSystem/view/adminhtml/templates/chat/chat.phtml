@@ -1,0 +1,94 @@
+<?php
+/**
+ * @var $block \Lof\ChatSystem\Block\Adminhtml\Chat\Edit\Tab\Main
+ */
+$this->isRead();
+$helper = $this->helper("Lof\ChatSystem\Helper\Data");
+$current_url = $block->escapeUrl($this->getCurrentChat()->getData('current_url'));
+?>
+<p><?= __('Chat message sent on') . ' ' . ($current_url ? ('<a href="' . $current_url . '" target="_BLANK">' . $current_url . '</a>') : ""); ?></p>
+<input type="hidden" name="chat_id" value="<?= $this->getCurrentChat()->getData('chat_id'); ?>">
+<div class="main-chat" id="main-chat">
+</div>
+<div class="box-chat">
+    <form method="post" id="formSendMsg" onsubmit="return false;">
+        <input type="hidden" name="form_key" value="<?= $block->escapeHtmlAttr($this->getFormKey()); ?>">
+        <input type="hidden" name="chat_id" value="<?= $block->escapeHtmlAttr($this->getCurrentChat()->getData('chat_id')); ?>">
+        <input type="hidden" name="user_id" value="<?= $block->escapeHtmlAttr($this->getUser()->getData('user_id')); ?>">
+        <input type="hidden" name="customer_id" value="<?= $block->escapeHtmlAttr($this->getCurrentChat()->getData('customer_id')); ?>">
+        <input type="hidden" name="user_name"
+               value="<?= $block->escapeHtmlAttr($this->getUser()->getData('firstname') . ' ' . $this->getUser()->getData('lastname')); ?>">
+        <input type="hidden" name="customer_name" value="<?= $block->escapeHtmlAttr($this->getCurrentChat()->getData('customer_name')); ?>">
+        <input type="hidden" name="customer_email" value="<?= $block->escapeHtmlAttr($this->getCurrentChat()->getData('customer_email')); ?>">
+        <input type="text" name="body_msg" placeholder="<?= __('Please enter a message'); ?> ...">
+    </form>
+</div>
+
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function ($) {
+
+        function sendMsg() {
+            $body_msg = lofescapeHtml($('#formSendMsg input[name="body_msg"]').val());
+            $chat_id = lofescapeHtml($('#formSendMsg input[name="chat_id"]').val());
+            $customer_id = lofescapeHtml($('#formSendMsg input[name="customer_id"]').val());
+            $user_id = lofescapeHtml($('#formSendMsg input[name="user_id"]').val());
+            $user_name = lofescapeHtml($('#formSendMsg input[name="user_name"]').val());
+            $customer_name = lofescapeHtml($('#formSendMsg input[name="customer_name"]').val());
+            $customer_email = lofescapeHtml($('#formSendMsg input[name="customer_email"]').val());
+            if ($.trim($body_msg)) {
+                $('#formSendMsg input[type="text"]').val('');
+                $('.main-chat').append('<div class="msg-user"><p>' + $body_msg + '</p><div class="info-msg-user"><?= __("You");?></div></div>');
+                $.ajax({
+                    url: '<?= $this->getUrl('lofchatsystem/chat/sendmsg'); ?>',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        body_msg: $body_msg,
+                        chat_id: $chat_id,
+                        customer_id: $customer_id,
+                        user_id: $user_id,
+                        customer_name: $customer_name,
+                        customer_email: $customer_email,
+                        user_name: $user_name
+
+                    }, success: function () {
+                        $('#formSendMsg input[type="text"]').val('');
+                        var div = document.getElementById('main-chat')
+                        div.scrollTop = div.scrollHeight - div.clientHeight;
+                    }
+                });
+            }
+        }
+
+        function lofescapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        $('#formSendMsg input[type="text"]').keypress(function () {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                sendMsg();
+                var div = document.getElementById('main-chat')
+                div.scrollTop = div.scrollHeight - div.clientHeight;
+            }
+        });
+
+        $('#formSendMsg input[type="text"]').click(function (e) {
+            var div = document.getElementById('main-chat')
+            div.scrollTop = div.scrollHeight - div.clientHeight;
+        });
+
+        $('.main-chat').load('<?= $this->getUrl('lofchatsystem/chat/msglog/chat_id/' . $this->getCurrentChat()->getData('chat_id')); ?>');
+        $.ajaxSetup({cache: false});
+        setInterval(function () {
+            $('.main-chat').load('<?= $this->getUrl('lofchatsystem/chat/msglog/chat_id/' . $this->getCurrentChat()->getData('chat_id')); ?>');
+        }, 5000);
+    });
+</script>

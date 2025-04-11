@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+	<!-- Backend -->
+	<route url="/V1/lof-chatsystem/chat" method="POST">
+		<service class="Lof\ChatSystem\Api\ChatRepositoryInterface" method="save"/>
+		<resources>
+			<resource ref="Lof_ChatSystem::chat_save"/>
+		</resources>
+	</route>
+	<route url="/V1/lof-chatsystem/chat/search" method="GET">
+		<service class="Lof\ChatSystem\Api\ChatRepositoryInterface" method="getList"/>
+		<resources>
+			<resource ref="Lof_ChatSystem::chat"/>
+		</resources>
+	</route>
+	<route url="/V1/lof-chatsystem/chat/:chatId" method="GET">
+		<service class="Lof\ChatSystem\Api\ChatRepositoryInterface" method="get"/>
+		<resources>
+			<resource ref="Lof_ChatSystem::chat"/>
+		</resources>
+	</route>
+	<route url="/V1/lof-chatsystem/chat/:chatId" method="PUT">
+		<service class="Lof\ChatSystem\Api\ChatRepositoryInterface" method="save"/>
+		<resources>
+			<resource ref="Lof_ChatSystem::chat_save"/>
+		</resources>
+	</route>
+	<route url="/V1/lof-chatsystem/chat/:chatId" method="DELETE">
+		<service class="Lof\ChatSystem\Api\ChatRepositoryInterface" method="deleteById"/>
+		<resources>
+			<resource ref="Lof_ChatSystem::chat_delete"/>
+		</resources>
+	</route>
+
+	<route url="/V1/lof-chatsystem/message" method="POST">
+		<service class="Lof\ChatSystem\Api\MessageRepositoryInterface" method="save"/>
+		<resources>
+			<resource ref="Lof_ChatSystem::chat_save"/>
+		</resources>
+	</route>
+	<route url="/V1/lof-chatsystem/message/search" method="GET">
+		<service class="Lof\ChatSystem\Api\MessageRepositoryInterface" method="getList"/>
+		<resources>
+			<resource ref="Lof_ChatSystem::chat"/>
+		</resources>
+	</route>
+
+	<!-- To Do-->
+	<route url="/V1/lof-chatsystem/sendChatMessage/:chatId" method="PUT">
+		<service class="Lof\ChatSystem\Api\ChatRepositoryInterface" method="sendAdminChatMessage"/>
+		<resources>
+			<resource ref="Lof_ChatSystem::chat_save"/>
+		</resources>
+	</route>
+
+	<!-- Frontend -->
+
+	<route url="/V1/lof-chatsystem/mine/myChat" method="GET">
+        <service class="Lof\ChatSystem\Api\ChatRepositoryInterface" method="getMyChat"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+		<data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/lof-chatsystem/mine/sendChatMessage" method="POST">
+        <service class="Lof\ChatSystem\Api\ChatRepositoryInterface" method="sendCustomerChatMessage"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+</routes>

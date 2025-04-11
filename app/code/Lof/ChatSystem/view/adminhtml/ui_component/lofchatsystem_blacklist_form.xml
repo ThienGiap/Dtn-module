@@ -1,0 +1,139 @@
+<?xml version="1.0" ?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+	<argument name="data" xsi:type="array">
+		<item name="js_config" xsi:type="array">
+			<item name="provider" xsi:type="string">lofchatsystem_blacklist_form.blacklist_form_data_source</item>
+		</item>
+		<item name="label" xsi:type="string" translate="true">General Information</item>
+		<item name="template" xsi:type="string">templates/form/collapsible</item>
+	</argument>
+	<settings>
+		<buttons>
+			<button name="back" class="Lof\ChatSystem\Block\Adminhtml\Blacklist\Edit\BackButton"/>
+			<button name="delete" class="Lof\ChatSystem\Block\Adminhtml\Blacklist\Edit\DeleteButton"/>
+			<button name="save" class="Lof\ChatSystem\Block\Adminhtml\Blacklist\Edit\SaveButton"/>
+			<button name="save_and_continue" class="Lof\ChatSystem\Block\Adminhtml\Blacklist\Edit\SaveAndContinueButton"/>
+		</buttons>
+		<namespace>lofchatsystem_blacklist_form</namespace>
+		<dataScope>data</dataScope>
+		<deps>
+			<dep>lofchatsystem_blacklist_form.blacklist_form_data_source</dep>
+		</deps>
+	</settings>
+	<dataSource name="blacklist_form_data_source">
+		<argument name="data" xsi:type="array">
+			<item name="js_config" xsi:type="array">
+				<item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+			</item>
+		</argument>
+		<settings>
+			<submitUrl path="*/*/save"/>
+		</settings>
+		<dataProvider name="blacklist_form_data_source" class="Lof\ChatSystem\Model\Blacklist\DataProvider">
+			<settings>
+				<requestFieldName>blacklist_id</requestFieldName>
+				<primaryFieldName>blacklist_id</primaryFieldName>
+			</settings>
+		</dataProvider>
+	</dataSource>
+	<fieldset name="lof_bannerimage">
+		<settings>
+			<label>Banner Information</label>
+		</settings>
+
+		<field name="customer_id" formElement="input">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">ChatSystem</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">Customer ID</label>
+				<dataScope>customer_id</dataScope>
+				<validation>
+					<rule name="required-entry" xsi:type="boolean">false</rule>
+				</validation>
+			</settings>
+		</field>
+		<field name="email" formElement="input">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">ChatSystem</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">Email</label>
+				<dataScope>email</dataScope>
+				<validation>
+					<rule name="required-entry" xsi:type="boolean">false</rule>
+				</validation>
+			</settings>
+		</field>
+		<field name="ip" formElement="input">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">ChatSystem</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">Ip Address</label>
+				<dataScope>ip</dataScope>
+				<validation>
+					<rule name="required-entry" xsi:type="boolean">false</rule>
+				</validation>
+			</settings>
+		</field>
+		<field name="status">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Lof\ChatSystem\Model\Blacklist\Source\Status</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Blacklist Status</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                </item>
+            </argument>
+        </field>
+		<field name="note" formElement="textarea">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">ChatSystem</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">Admin Note</label>
+				<dataScope>note</dataScope>
+				<validation>
+					<rule name="required-entry" xsi:type="boolean">false</rule>
+				</validation>
+			</settings>
+		</field>
+		<field name="created_time" formElement="date">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">ChatSystem</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">Created At</label>
+				<dataScope>created_time</dataScope>
+			</settings>
+		</field>
+		<field name="updated_time" formElement="date">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">ChatSystem</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">Updated At</label>
+				<dataScope>updated_time</dataScope>
+			</settings>
+		</field>
+	</fieldset>
+</form>

@@ -1,0 +1,293 @@
+<?php
+
+/**
+ * @var $block Lof\ChatSystem\Block\Chat\Chat
+ */
+$helper = $this->helper("Lof\ChatSystem\Helper\Data");
+$store = $helper->getConfig('chat/store');
+$store = explode(",", (string)$store);
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$chat = $objectManager->create('Lof\ChatSystem\Model\Chat');
+$is_read = 0;
+
+$enable = $helper->getConfig('general_settings/enable');
+$enable_guest = $helper->getConfig('chat/enable_guest');
+if (!$enable) {
+    return;
+}
+
+if ($store && !in_array($helper->getStoreId(), $store)) {
+    return;
+}
+?>
+
+<div id="live-chat">
+    <header class="clearfix" <?php
+    if ($helper->getConfig('chat/background_color')) {
+        echo 'style="background-color:' . $helper->getConfig('chat/background_color') . '"';
+    } ?>>
+        <a href="#" class="chat-close">x</a>
+        <h4><?= $block->escapeHtml($helper->getConfig('chat/text_label')); ?></h4>
+        <?php
+        if ($is_read == 3) : ?>
+            <span class="chat-message-counter" style="display: inline;">1</span>
+        <?php
+        endif; ?>
+    </header>
+    <div class="chat">
+        <?php
+        if (!$this->isLogin()) { ?>
+            <ul class="tabs">
+                <?php
+                if ($enable_guest) : ?>
+                    <li class="tab-link current" data-tab="tab-lofchat-1"><?= __('Guest Chat'); ?></li>
+                <?php
+                endif; ?>
+                <li class="tab-link <?php
+                if (!$enable_guest) { ?>current<?php
+                } ?>"
+                    data-tab="tab-lofchat-2"><?= __('Login Chat'); ?></li>
+            </ul>
+            <?php
+            if ($enable_guest) : ?>
+                <div id="tab-lofchat-1" class="tab-content current">
+                    <div class="form-chat">
+                        <div class="main-chat" id="main-chat">
+                        </div>
+                        <div class="box-chat">
+                            <form method="post" id="formSendMsg" onsubmit="return false;">
+                                <input type="hidden" name="form_key"
+                                       value="<?= $block->escapeHtmlAttr($this->getFormKey()); ?>">
+                                <input type="hidden" name="chat_id"
+                                       value="<?= $block->escapeHtmlAttr($this->getChatId()); ?>">
+                                <input type="hidden" name="current_url"
+                                       value="<?= $block->escapeUrl($helper->getCurrentUrl()); ?>">
+                                <input type="hidden" name="customer_id"
+                                       value="<?= $block->escapeHtmlAttr(
+                                           $this->getCustomerSession()->getCustomerId()
+                                       ); ?>">
+                                <input type="hidden" name="customer_name"
+                                       value="<?= $block->escapeHtmlAttr(
+                                           $this->getCustomer()->getData('firstname') . ' ' . $this->getCustomer(
+                                           )->getData('lastname')
+                                       ); ?>">
+                                <input type="hidden" name="customer_email"
+                                       value="<?= $block->escapeHtmlAttr($this->getCustomer()->getData('email')); ?>">
+                                <input type="text" name="body_msg"
+                                       placeholder="<?= __('Please enter a message'); ?> ...">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php
+            endif; ?>
+            <div id="tab-lofchat-2" class="tab-content <?php
+            if (!$enable_guest) { ?>current<?php
+            } ?>">
+                <div class="form-login-chat">
+                    <form class="form form-login"
+                          action="<?php
+                          /* @escapeNotVerified */
+                          echo $block->getPostActionUrl() ?>"
+                          method="post" id="login-form" data-mage-init='{"validation":{}}'>
+                        <?= $block->getBlockHtml('formkey'); ?>
+                        <fieldset class="fieldset login"
+                                  data-hasrequired="<?php
+                                  /* @escapeNotVerified */
+                                  echo __('* Required Fields') ?>">
+                            <div class="field note"><?php
+                                /* @escapeNotVerified */
+                                echo __('If you have an account, sign in with your email address.') ?></div>
+                            <div class="field email required">
+                                <label class="label" for="email"><span><?php
+                                        /* @escapeNotVerified */
+                                        echo __('Email') ?></span></label>
+                                <div class="control">
+                                    <input name="login[username]"
+                                           value="<?= $block->escapeHtmlAttr($block->getUsername()) ?>"
+                                        <?php
+                                        if ($block->isAutocompleteDisabled()) : ?>
+                                            autocomplete="off" <?php
+                                        endif; ?> id="email" type="email"
+                                           class="input-text"
+                                           title="<?php
+                                           /* @escapeNotVerified */
+                                           echo __('Email') ?>"
+                                           data-validate="{required:true, 'validate-email':true}">
+                                </div>
+                            </div>
+                            <div class="field password required">
+                                <label for="pass" class="label"><span><?php
+                                        /* @escapeNotVerified */
+                                        echo __('Password') ?></span></label>
+                                <div class="control">
+                                    <input name="login[password]" type="password"
+                                        <?php
+                                        if ($block->isAutocompleteDisabled()) : ?>
+                                            autocomplete="off" <?php
+                                        endif; ?> class="input-text" id="pass"
+                                           title="<?php
+                                           /* @escapeNotVerified */
+                                           echo __('Password') ?>"
+                                           data-validate="{required:true, 'validate-password':true}">
+                                </div>
+                            </div>
+                            <div class="actions-toolbar">
+                                <div class="primary">
+                                    <button type="submit" class="action login primary" name="send"
+                                            id="send2">
+                                            <span><?php
+                                                /* @escapeNotVerified */
+                                                echo __('Login') ?></span>
+                                    </button>
+                                </div>
+                                <div class="secondary">
+                                    <a class="action remind"
+                                       href="<?php
+                                       /* @escapeNotVerified */
+                                       echo $block->getForgotPasswordUrl() ?>"><span><?php
+                                            /* @escapeNotVerified */
+                                            echo __('Forgot Your Password?') ?></span></a>
+                                </div>
+                                <div class="secondary">
+                                    <a class="action remind"
+                                       href="<?php
+                                       /* @escapeNotVerified */
+                                       echo $block->getRegisterUrl() ?>"><span><?php
+                                            /* @escapeNotVerified */
+                                            echo __('Create an Account') ?></span></a>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        <?php
+        } else { ?>
+            <div class="form-chat">
+                <div class="main-chat" id="main-chat">
+
+                </div>
+                <div class="box-chat">
+                    <form method="post" id="formSendMsg" onsubmit="return false;">
+                        <input type="hidden" name="form_key"
+                               value="<?= $block->escapeHtmlAttr($this->getFormKey()); ?>">
+                        <input type="hidden" name="chat_id" value="<?= $block->escapeHtmlAttr($this->getChatId()); ?>">
+                        <input type="hidden" name="current_url"
+                               value="<?= $block->escapeUrl($helper->getCurrentUrl()); ?>">
+                        <input type="hidden" name="customer_id"
+                               value="<?= $block->escapeHtmlAttr($this->getCustomerSession()->getCustomerId()); ?>">
+                        <input type="hidden" name="customer_name"
+                               value="<?= $block->escapeHtmlAttr(
+                                   $this->getCustomer()->getData('firstname') . ' ' . $this->getCustomer()->getData(
+                                       'lastname'
+                                   )
+                               ); ?>">
+                        <input type="hidden" name="customer_email"
+                               value="<?= $block->escapeHtmlAttr($this->getCustomer()->getData('email')); ?>">
+                        <input type="text" name="body_msg"
+                               placeholder="<?= __('Please enter a message'); ?> ...">
+                    </form>
+                </div>
+            </div>
+        <?php
+        } ?>
+    </div> <!-- end chat -->
+</div> <!-- end live-chat -->
+<script type="text/javascript">
+    require(['jquery'], function ($) {
+        (function () {
+            $('.chat ul.tabs li').click(function () {
+                var tab_id = $(this).attr('data-tab');
+
+                $('.chat ul.tabs li').removeClass('current');
+                $('.chat .tab-content').removeClass('current');
+
+                $(this).addClass('current');
+                $("#" + tab_id).addClass('current');
+            })
+
+            $('#live-chat header').on('click', function () {
+                $('.chat').slideToggle(300, 'swing');
+                //$('.chat-message-counter').fadeToggle(300, 'swing');
+            });
+
+            $('.chat-close').on('click', function (e) {
+                e.preventDefault();
+                $('#live-chat').fadeOut(300);
+            });
+        })();
+
+        function sendMsg() {
+            $body_msg = lofescapeHtml($('#formSendMsg input[name="body_msg"]').val());
+            $chat_id = lofescapeHtml($('#formSendMsg input[name="chat_id"]').val());
+            $customer_id = lofescapeHtml($('#formSendMsg input[name="customer_id"]').val());
+            $customer_name = lofescapeHtml($('#formSendMsg input[name="customer_name"]').val());
+            $customer_email = lofescapeHtml($('#formSendMsg input[name="customer_email"]').val());
+            $current_url = lofescapeHtml($('#formSendMsg input[name="current_url"]').val());
+            if ($.trim($body_msg) && $.trim($chat_id)) {
+                $('#formSendMsg input[type="text"]').val('');
+                $('.main-chat').append('<div class="msg-user"><p>' + $body_msg + '</p><div class="info-msg-user">You</div></div>');
+
+                $.ajax({
+                    url: '<?= $this->getUrl('lofchatsystem/chat/sendmsg'); ?>',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        body_msg: $body_msg,
+                        chat_id: $chat_id,
+                        customer_id: $customer_id,
+                        customer_name: $customer_name,
+                        customer_email: $customer_email,
+                        current_url: $current_url
+
+                    }, success: function () {
+                        $('#formSendMsg input[type="text"]').val('');
+                        var div = document.getElementById('main-chat');
+                        if (div) {
+                            div.scrollTop = div.scrollHeight - div.clientHeight;
+                        }
+                    }
+                });
+            }
+        }
+
+        function lofescapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        $('#formSendMsg input[name="body_msg"]').keypress(function (event) {
+            //event.preventDefault();
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                sendMsg();
+                var div = document.getElementById('main-chat');
+                if (div) {
+                    div.scrollTop = div.scrollHeight - div.clientHeight;
+                }
+                $('.chat-message-counter').css('display', 'none');
+            }
+        });
+
+        $('#formSendMsg input[type="text"]').click(function (e) {
+            var div = document.getElementById('main-chat');
+            if (div) {
+                div.scrollTop = div.scrollHeight - div.clientHeight;
+            }
+        });
+        $('.main-chat').load('<?= $this->getUrl('lofchatsystem/chat/msglog'); ?>');
+        $.ajaxSetup({cache: false});
+        setInterval(function () {
+            $('.main-chat').load('<?= $this->getUrl('lofchatsystem/chat/msglog'); ?>');
+            var div = document.getElementById('main-chat');
+            if (div) {
+                div.scrollTop = div.scrollHeight - div.clientHeight;
+            }
+        }, 5000);
+    });
+</script>

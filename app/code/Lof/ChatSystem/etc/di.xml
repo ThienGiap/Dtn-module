@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Landofcoder
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * http://landofcoder.com/license
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Landofcoder
+ * @package    Lof_ChatSystem
+ * @copyright  Copyright (c) 2016 Landofcoder (http://www.landofcoder.com/)
+ * @license    http://www.landofcoder.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Lof\ChatSystem\Api\ChatRepositoryInterface" type="Lof\ChatSystem\Model\ChatRepository"/>
+	<preference for="Lof\ChatSystem\Api\Data\ChatInterface" type="Lof\ChatSystem\Model\Data\Chat"/>
+	<preference for="Lof\ChatSystem\Api\Data\ChatSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Lof\ChatSystem\Api\MessageRepositoryInterface" type="Lof\ChatSystem\Model\MessageRepository"/>
+	<preference for="Lof\ChatSystem\Api\Data\MessageInterface" type="Lof\ChatSystem\Model\Data\Message"/>
+	<preference for="Lof\ChatSystem\Api\Data\MessageSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="lofchatsystem_chat_listing_data_source" xsi:type="string">Lof\ChatSystem\Model\ResourceModel\Chat\Grid\Collection</item>
+                <item name="lofchatsystem_blacklist_listing_data_source" xsi:type="string">Lof\ChatSystem\Model\ResourceModel\Blacklist\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+		<arguments>
+			<argument name="commands" xsi:type="array">
+				<item name="Cleancache" xsi:type="object">Lof\ChatSystem\Console\Command\Cleanlogs</item>
+			</argument>
+		</arguments>
+	</type>
+
+    <type name="Lof\ChatSystem\Model\ResourceModel\Blacklist\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lof_chatsystem_blacklist</argument>
+            <argument name="eventPrefix" xsi:type="string">lofchatsystem_blacklist_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">blacklist_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Lof\ChatSystem\Model\ResourceModel\Blacklist</argument>
+        </arguments>
+    </type>
+
+     <type name="Lof\ChatSystem\Model\ResourceModel\Chat\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lof_chatsystem_chat</argument>
+            <argument name="eventPrefix" xsi:type="string">lofchatsystem_chat_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">chat_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Lof\ChatSystem\Model\ResourceModel\Chat</argument>
+        </arguments>
+    </type>
+    <virtualType name="ChatSystemGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType> 
+    <virtualType name="ChatGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Lof\ChatSystem\Model\ResourceModel\Chat\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">ChatSystemGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+</config>

@@ -1,0 +1,206 @@
+<?php
+$collection = $block->getTicket()
+    ->setOrder('last_reply_at', 'desc');
+$count       = $collection->count();
+$size        = $collection->getSize();
+$limit       = $block->getLimit();
+$currentPage = $block->getCurrentPage();
+$start       = $size - (($currentPage - 1) * $limit);
+$modId       = time() . rand();
+$helper = $this->helper("Lof\ChatSystem\Helper\Data");
+
+?>
+<?php if($count){ ?>
+<div class="block lrw-block lrw-account-summary-listing">
+	<div class="block-content">
+		<div class="table-wrapper orders-recent">
+			<table class="data-table table">
+				<thead>
+					<tr>
+						<th><?= __('ID'); ?></th>
+						<th><?= __('Subject'); ?></th>
+						<th><?= __('Category'); ?></th>
+						<th><?= __('Last Activity'); ?></th>
+						<th><?= __('Status'); ?></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i = 0; ?>
+					<?php foreach ($collection as $_ticket) { ?>
+					<?php $amount = $_ticket->getAmount(); ?>
+					<tr class="<?= $i % 2 ? 'odd' : 'even' ?> <?= ($i == $count-1) ? 'last' : '' ?>">
+						<td><?= ($start-$i) ?></td>
+						<td><a class="box-body" href="<?= $block->getUrl('lofchatsystem/ticket/view', ['ticket_id' => $_ticket->getData('ticket_id')]); ?>"><?= $_ticket->getSubject() ?></a></td>
+						<td><?= $this->getCategoryName($_ticket->getCategoryId()); ?>
+						</td>
+						<td><?= $_ticket->getLastReplyAt(); ?></td>
+						<td class="lrw-status-<?= str_replace(" ", "-", strtolower($this->getStatus($_ticket->getStatusId()))); ?>">
+							<?= $this->getStatus($_ticket->getStatusId()); ?>
+						</td>
+						<td>
+							<?php  if($this->getUnreadMessageCount($_ticket->getData('ticket_id')) >0 ) { ?><i class="fa fa-circle unread" aria-hidden="true"></i>
+							<?php } else { ?>
+							<i class="fa fa-circle" aria-hidden="true"></i>
+							<?php } ?>
+						</td>
+					</tr>
+					<?php $i++; ?>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+		<?= $block->getChildHtml('toolbar'); ?>
+	</div>
+</div>
+
+<?php } ?>
+<div class="block lrw-block lrw-account-summary-listing">
+	<div class="block-title">
+		<strong><?= __('Create New Ticket');?></strong>
+	</div>
+	<div class="block-content">
+		<div class="orders-recent">
+			<div id="lofform<?= $modId;?>" class="chatsystem-form">
+				<div class="form-content">
+					<form id="chatsystem<?= $modId;?>" class="chatsystem form" action="<?php  echo $block->getUrl('*/*/saveticket')?>" method="post" data-hasrequired="<?= __('* Required Fields') ?>" data-mage-init='{"validation":{}}' enctype="multipart/form-data">
+						<div class="form-list row">
+							<div class="field col-sm-6">
+								<div class="response-field-text">
+									<div class="subtemplate-wrapper" style="">
+										<label for="subject" class="required"><?= __('Subject'); ?><em>*</em>
+										</label>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="subtemplate-inner">
+													<input name="subject" id="subject" title="Subject" value="" class="input-text required-entry _required" type="text">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="field col-sm-3">
+								<div class="response-field-text">
+									<div class="subtemplate-wrapper" style="">
+										<label for="category_id" class="required"><?= __('Category'); ?><em>*</em>
+										</label>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="subtemplate-inner">
+													<select id="category_id" name="category_id" class="form-control select2 required-entry" style="width: 100%;">
+														<option value><?= __('Select a category'); ?></option>
+								                  		<?php
+								                  		foreach ($block->getCategory() as $key => $category) { ?>
+								                  		<option value="<?= $category->getData('category_id'); ?>"><?= $category->getData('title'); ?></option>
+								                  		<?php } ?>
+								                	</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="field col-sm-3">
+								<div class="response-field-text">
+									<div class="subtemplate-wrapper" style="">
+										<label for="priority_id" class="required"><?= __('Priority'); ?><em>*</em>
+										</label>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="subtemplate-inner">
+													<select id="priority_id" name="priority_id" class="form-control select2 required-entry" style="width: 100%;">
+														<option value><?= __('Select a priority'); ?></option>
+								                  		<?php foreach ($block->getPriority() as $key => $priority) { ?>
+								                  		<option value="<?= $priority['id']; ?>"><?= $priority['title']; ?></option>
+								                  		<?php } ?>
+								                	</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="field col-sm-12">
+								<div class="response-field-text">
+									<div class="subtemplate-wrapper" style="">
+										<label for="description " class="required"><?= __('Message '); ?><em>*</em>
+										</label>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="subtemplate-inner">
+													<textarea name="description" id="description" class="input-text required-entry _required" rows="5" aria-required="true"></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="field col-sm-12 ">
+								<div class="response-field-file_upload">
+									<div class="subtemplate-wrapper" style="">
+										<label for="attachment" style="" class="required"><?= __('Attachment');?></label>
+										<div class="input-box">
+											<input name="attachment" id="attachment" style="" title="Attachment" class="input-text " type="file">
+										</div>
+									</div>
+								</div>
+							</div>
+							<?php if(count($block->getOrder()) > 0) { ?>
+							<div class="field col-sm-6">
+								<div class="response-field-text">
+									<div class="subtemplate-wrapper" style="">
+										<label for="order_id" class="required"><?= __('Order'); ?>
+										</label>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="subtemplate-inner">
+													<select id="order_id" name="order_id" class="form-control select2">
+													<option><?= __('Select an order'); ?></option>
+							                  		<?php foreach ($block->getOrder() as $key => $order) { ?>
+							                  		<option value="<?= $order['id']; ?>"><?= $order['name']; ?></option>
+							                  		<?php } ?>
+								                	</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="field col-sm-6">
+								<div class="response-field-text">
+									<div class="subtemplate-wrapper" style="">
+										<label for="product_id" class="required"><?= __('Product'); ?>
+										</label>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="subtemplate-inner">
+													<select multiple id="product_id" name="products[]" class="form-control multiple">
+
+							                  		<?php foreach ($block->getProduct() as $key => $product) { ?>
+							                  		<option value="<?= $product['value']; ?>"><?= $product['label']; ?></option>
+							                  		<?php } ?>
+								                	</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<?php } ?>
+						</div>
+						<div class="row">
+							<div class="buttons-set col-sm-12">
+							<button type="submit" title="Submit" class="formbuilder-button button">
+								<span>
+									<?= __('Submit Ticket'); ?>
+								</span>
+							</button>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

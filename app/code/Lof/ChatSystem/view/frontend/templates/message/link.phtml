@@ -1,0 +1,4 @@
+<li class="message-link">
+    <a href="<?= $block->getMessageUrl()?>"><i class="fa fa-envelope-o"></i></a>
+    <?php if($count = $block->getUnreadMessageCount()):?><span class="unread-message-count"><?= $count?></span><?php endif;?>
+</li>
